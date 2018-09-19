@@ -5,8 +5,11 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
 
@@ -33,9 +36,23 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         sensorManager.unregisterListener(this);
     }
 
+    MediaPlayer mp;
+    boolean isrunning=false;
+
 
     @Override
     public void onSensorChanged(SensorEvent event) {
+        if (event.values[0]>40 && isrunning==false){
+            isrunning=true;
+            mp=new MediaPlayer();
+            try {
+                mp.setDataSource("https://www.youtube.com/watch?v=Ow0ILNvbSAs");
+                mp.prepare();
+                mp.start();
+            }   catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
 
     }
 
